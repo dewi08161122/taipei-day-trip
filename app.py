@@ -46,12 +46,23 @@ def search(page: int = Query(0, ge=0),category: str = Query(None),
 	cursor=con.cursor()
 	try:
 		if category == None and keyword == None:
+			cursor.execute("SELECT COUNT(*) FROM travel")
+			total=cursor.fetchone()[0]
 			cursor.execute("SELECT * FROM travel LIMIT %s,%s",[page*8,8])
 		elif keyword==None:
+			cursor.execute("SELECT COUNT(*) FROM travel WHERE category=%s",[category])
+			total=cursor.fetchone()[0]
 			cursor.execute("SELECT * FROM travel WHERE category=%s LIMIT %s,%s",[category,page*8,8])
 		else:
 			likekeyword="%"+keyword+"%"
+			cursor.execute("SELECT COUNT(*) FROM travel WHERE  category=%s OR mrt=%s OR name LIKE %s",[category,keyword,likekeyword])
+			total=cursor.fetchone()[0]
 			cursor.execute("SELECT * FROM travel WHERE category=%s OR mrt=%s OR name LIKE %s LIMIT %s,%s",[category,keyword,likekeyword,page*8,8])
+		if total/8 < page+1:
+			nextpage=None
+		else:
+			nextpage=page+1
+
 		result=cursor.fetchall()
 		data=[]
 		for i in result:
@@ -67,11 +78,11 @@ def search(page: int = Query(0, ge=0),category: str = Query(None),
 				"images":json.loads(i[9]),
 			}
 			data.append(data1)
-		return{"nextpage":page+1,"data":data}
+		return{"nextpage":nextpage,"data":data}
 	except:
 		return{"error":True,"message":"伺服器內部錯誤"}
 
-@app.get("/api/attractions/{attractionId}")
+@app.get("/api/attraction/{attractionId}")
 def searchID(attractionId: int):
 	cursor=con.cursor()
 	try:
