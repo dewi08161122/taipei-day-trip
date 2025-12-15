@@ -1,15 +1,17 @@
 import mysql.connector ,json
-con=mysql.connector.connect(
-	user="root",
-	password="11221122",
-	host="localhost",
-	database="taipei"
-)
+def get_connection():
+	return mysql.connector.connect(
+		user="root",
+		password="11221122",
+		host="localhost",
+		database="taipei"
+		)
 from fastapi import FastAPI, Body, Request, Query
 from fastapi.responses import FileResponse
 from starlette.middleware.sessions import SessionMiddleware
 app=FastAPI()
 app.add_middleware(SessionMiddleware,secret_key="1111")
+con = get_connection()
 cursor=con.cursor()
 cursor.execute("CREATE TABLE IF NOT EXISTS member(" \
 "id BIGINT unsigned not null primary key auto_increment," \
@@ -28,6 +30,7 @@ def signup(body=Body(None)):
 	if name==None or email==None or password==None:
 		return{"error":True,"message":"請提供完整資料，空白處都要填寫"}
 	try:
+		con = get_connection()
 		cursor=con.cursor()
 		cursor.execute("SELECT * FROM member WHERE email=%s",[email])
 		result=cursor.fetchone()
@@ -43,6 +46,7 @@ def signup(body=Body(None)):
 @app.get("/api/attractions")
 def search(page: int = Query(0, ge=0),category: str = Query(None), 
     keyword: str = Query(None)):
+	con = get_connection()
 	cursor=con.cursor()
 	try:
 		if category == None and keyword == None:
@@ -84,6 +88,7 @@ def search(page: int = Query(0, ge=0),category: str = Query(None),
 
 @app.get("/api/attraction/{attractionId}")
 def searchID(attractionId: int):
+	con = get_connection()
 	cursor=con.cursor()
 	try:
 		cursor.execute("SELECT * FROM travel WHERE id=%s",[attractionId])
@@ -109,6 +114,7 @@ def searchID(attractionId: int):
 
 @app.get("/api/categories")
 def listCategories():
+	con = get_connection()
 	cursor=con.cursor()
 	try:
 		cursor.execute("SELECT DISTINCT category FROM travel") # DISTINCT 可以直接去除重複資料
@@ -120,6 +126,7 @@ def listCategories():
 
 @app.get("/api/mrts")
 def listMrts():
+	con = get_connection()
 	cursor=con.cursor()
 	try:
 		cursor.execute("SELECT mrt, COUNT(*) AS total FROM travel GROUP BY mrt ORDER BY total DESC")
