@@ -8,6 +8,7 @@ def get_connection():
 		)
 from fastapi import FastAPI, Body, Request, Query
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 app=FastAPI()
 app.add_middleware(SessionMiddleware,secret_key="1111")
@@ -131,7 +132,7 @@ def listMrts():
 	try:
 		cursor.execute("SELECT mrt, COUNT(*) AS total FROM travel GROUP BY mrt ORDER BY total DESC")
 		result=cursor.fetchall()
-		data=[i[0] for i in result]				
+		data=[i[0] for i in result if i[0] != None]			
 		return{"data":data}
 	except:
 		return{"error":True,"message":"伺服器內部錯誤"}
@@ -154,3 +155,8 @@ async def booking(request: Request):
 @app.get("/thankyou", include_in_schema=False)
 async def thankyou(request: Request):
 	return FileResponse("./static/thankyou.html", media_type="text/html")
+
+app.mount("/css", StaticFiles(directory="public/css"), name="css")
+app.mount("/js", StaticFiles(directory="public/javascript"), name="js")
+app.mount("/img", StaticFiles(directory="public/image"), name="img")
+app.mount("/", StaticFiles(directory="static", html=True))

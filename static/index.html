@@ -3,9 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Index</title>
+  <title>首頁</title>
+  <link rel="stylesheet" type="text/css" href="/css/index.css" />
 </head>
 <body>
-  
+  <div class="navigation">
+    <div class="title">
+      <div class="title__word">台北一日遊</div>
+      <div class="title__container">
+        <div class="title__button">預定行程</div>
+        <div class="title__button">登入/註冊</div>
+      </div>
+    </div>
+  </div>
+  <div class="welcome">
+    <div class="herocontent">
+      <div class="background__word">
+        <div class="slogan">
+          <div class="slogan1">輕鬆享受台北一日悠閒</div>
+          <div class="slogan2">探索每個角落，體驗城市的深度旅遊行程</div>
+        </div>
+        <div class="search__bar">
+          <div class="selector">
+            <div class="selector__word">全部分類 ▼</div> <!-- 內容從後端取得 -->
+          </div>
+          <div class="input">
+            <input class="input__word"  type="text" value="輸入景點名稱查詢"/>
+          </div>
+          <div class="btn">
+            <img src="/img/search.png" class="btn__img" />
+          </div>
+        </div>
+        <div class="category__menu">
+          <div class="category__word">全部分類</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="attractionSection">
+    <div class="list__bar">
+      <div class="list__container-left">
+        <img src="/img/list__button-left.png" class="list__button-left" />
+      </div>
+      <div>
+        <div class="list__container">
+          <div class="listItem__container">
+            <!-- <div class="listItem">
+              <div class="list__itemword">標籤</div>
+            </div>
+            <div class="listItem">
+              <div class="list__itemword">大大標籤</div>
+            </div>
+            <div class="listItem">
+              <div class="list__itemword">大大大標籤</div>
+            </div>
+            <div class="listItem">
+              <div class="list__itemword">大標籤</div>
+            </div> -->
+          </div>
+        </div> 
+      </div>
+      <div class="list__container-right">
+        <img src="/img/list__button-right.png" class="list__button-right" />
+      </div>
+    </div>
+    <div class="attractions">
+      <div class="attractions__group">
+        <!-- <div class="attraction">
+          <div class="attraction__container">
+            <img src="/img/fuji.jpg" class="attraction__image" />
+            <div class="attraction__word">富士山</div>
+          </div>
+          <div class="attraction__detail">
+            <div class="attraction__detail-leftword">捷運站</div>
+            <div class="attraction__detail-rightword">景點類別</div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer__word">COPYRIGHT © 2021 台北一日遊</div>
+  </div>
+  <script src="/js/index.js"></script>
 </body>
 </html>

@@ -1,0 +1,389 @@
+body{
+    margin:0px;
+    font-family: "Noto Sans TC";
+    font-style: normal;
+}
+.navigation{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 54px;
+}
+.title{
+    display: flex;
+    align-items: center;
+    width: 1200px;
+    height: 34px;  
+}
+.title__word{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 150px;
+    height: 34px; 
+    font-size: 30px;
+    font-weight: 700;
+    color: #448899;
+    padding-left: 10px;
+}
+.title__container{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    width: 175px;
+    height: 34px;
+}
+.title__button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 34px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 13.3px;
+    color: #666666;
+    padding: 10px;
+}
+.welcome {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 320px;
+    background-image: url(/img/welcome.png);
+    background-repeat: no-repeat; /* 只顯示一張，不重複 */
+    background-size: cover;    
+}
+.herocontent{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1200px;
+    height: 169px;
+    padding: 10px;
+    margin-top: 75px;
+    box-sizing: border-box;
+}
+.background__word {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 1180px;
+    height: 149px;
+    gap: 25px;
+    position: relative;
+}
+.slogan {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 1180px;
+    height: 78px;
+    gap: 15px;
+}
+.slogan1{
+    display: flex;
+    align-items: center;
+    width: 1180px;
+    height: 41px; 
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 24px;
+    color: #FFFFFF;
+    text-shadow: 0px 0px 30px #AABBCC;
+}
+.slogan2{
+    display: flex;
+    align-items: center;
+    width: 1180px;
+    height: 22px; 
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 13.3px;
+    color: #FFFFFF;
+}
+.search__bar{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 460px;
+    height: 46px;
+    box-shadow: 0px 0px 20px 0px #AABBCC;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.selector{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 46px; 
+    background: #EEEEEE;
+}
+.selector__word{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 84px;
+    height: 14px; 
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    line-height: 13.3px;
+}
+.selector__word:hover {
+  cursor: pointer;
+}
+.input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 46px; 
+    background: #FFFFFF;
+}
+.input__word{
+    display: flex;
+    align-items: center;
+    width: 270px;
+    height: 16px; 
+    font-size: 16px;
+    font-weight: 700;
+    color: #757575;
+    line-height: 13.3px;
+    border: none;
+    outline: none; /* 移除點擊時的外框 */
+}
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 46px; 
+    background: #448899;
+}
+.btn__img{
+    width: 30px;
+    height: 30px;
+}
+.category__menu{
+    display: none;
+    width: 300px;
+    height: 160px;
+    margin-top: 154px;
+    grid-template-columns: repeat(auto-fill, 100px);
+    grid-auto-rows: 40px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px 0px #AABBCC; 
+    background: #FFFFFF;
+    overflow: hidden;
+    position: absolute;
+    z-index: 2;
+}
+.category__menu.open {
+  display: grid;
+}
+.category__word{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%; 
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+    border-radius: 5px;
+}
+.category__word:hover {
+  background: #EEEEEE;
+  cursor: pointer;
+}
+.attractionSection{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 966px; 
+    padding-top: 40px;
+    padding-bottom: 40px;
+    box-sizing: border-box;
+}
+.list__bar{
+    display: flex;
+    justify-content: center;
+    width: 1200px;
+    height: 70px; 
+    padding-bottom: 20px;
+    background: #FFFFFF;
+}
+.list__container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1106px;
+    height: 50px; 
+}
+.list__container-left{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 47px;
+    height: 50px; 
+}
+.list__container-right{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 47px;
+    height: 50px; 
+}
+.list__button-left{
+    width: 32px;
+    height: 32px;
+    opacity: 0.5;
+}
+.list__button-left:hover {
+  cursor: pointer;
+}
+.list__button-right{
+    width: 32px;
+    height: 32px;
+}
+.list__button-right:hover {
+  cursor: pointer;
+}
+.listItem__container{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 1086px;
+    height: 24px;
+    overflow: hidden;
+    white-space: nowrap; /* 防止換行 */
+}
+.listItem{
+    display: inline-flex; /* 保持文字正常長度 */
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    height: 14px; 
+    font-size: 16px;
+    font-weight: 500;
+    color: #666666;
+    line-height: 13.3px;
+    padding: 5px 15px;
+    white-space: nowrap;
+}
+.listItem:hover {
+  cursor: pointer;
+}
+.attractions{
+    width: 1200px;
+    height: 816px;
+    padding: 15px;
+    margin-bottom: 40px;
+}
+.attractions__group{
+    display: grid;
+    justify-content: flex-start;
+    width: 1170px;
+    height: 786px;
+    gap: 30px;
+    grid-template-columns: repeat(auto-fill, 270px);
+    grid-auto-rows: 242px; /*圖片高度*/
+}
+.attraction{
+    width: 270px;
+    height: 242px;
+    border: 1px solid #E8E8E8;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.attraction__container{
+    width: 270px;
+    height: 197px;
+    overflow: hidden;  /*把超出容器範圍的內容裁掉*/
+    position: relative;
+}
+.attraction__image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /*圖片等比例填滿，超出的部分裁掉*/
+    display: block;  /*圖片貼齊容器底部*/
+    position: absolute;
+}.attraction__word{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    background: #00000099;
+    bottom: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 13.3px;
+    z-index: 1;
+}
+/* .attraction__word{
+    display: flex;
+    align-items: center;
+    height: 20px; 
+     */
+.attraction__detail{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 270px;
+    height: 45px;
+    box-sizing: border-box;
+    padding: 10px;
+    background: #FFFFFF;
+}
+.attraction__detail-leftword{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 50%;
+    height: 25px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 13.3px;
+    color: #757575;
+}
+.attraction__detail-rightword{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 50%;
+    height: 25px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 13.3px;
+    color: #757575;
+}
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 104px;
+    background: #757575;
+}
+.footer__word{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 234px;
+    height: 24px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 13.3px;
+    color: #FFFFFF;
+}
