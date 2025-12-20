@@ -58,6 +58,11 @@ def search(page: int = Query(0, ge=0),category: str = Query(None),
 			cursor.execute("SELECT COUNT(*) FROM travel WHERE category=%s",[category])
 			total=cursor.fetchone()[0]
 			cursor.execute("SELECT * FROM travel WHERE category=%s LIMIT %s,%s",[category,page*8,8])
+		elif category ==None:
+			likekeyword="%"+keyword+"%"
+			cursor.execute("SELECT COUNT(*) FROM travel WHERE mrt=%s OR name LIKE %s",[keyword,likekeyword])
+			total=cursor.fetchone()[0]
+			cursor.execute("SELECT * FROM travel WHERE mrt=%s OR name LIKE %s LIMIT %s,%s",[keyword,likekeyword,page*8,8])
 		else:
 			likekeyword="%"+keyword+"%"
 			cursor.execute("SELECT COUNT(*) FROM travel WHERE  category=%s OR mrt=%s OR name LIKE %s",[category,keyword,likekeyword])
