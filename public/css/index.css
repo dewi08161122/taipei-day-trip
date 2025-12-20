@@ -50,14 +50,15 @@ body{
     justify-content: center;
     width: 100%;
     height: 320px;
+    background: linear-gradient(135deg, #AADDEE 0%, #66AABB 100%); 
     background-image: url(/img/welcome.png);
     background-repeat: no-repeat; /* 只顯示一張，不重複 */
-    background-size: cover;    
+    background-size: cover;
 }
 .herocontent{
     position: absolute;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 1200px;
     height: 169px;
@@ -69,7 +70,6 @@ body{
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    width: 1180px;
     height: 149px;
     gap: 25px;
     position: relative;
@@ -78,14 +78,12 @@ body{
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    width: 1180px;
     height: 78px;
     gap: 15px;
 }
 .slogan1{
     display: flex;
     align-items: center;
-    width: 1180px;
     height: 41px; 
     font-size: 28px;
     font-weight: 700;
@@ -96,12 +94,14 @@ body{
 .slogan2{
     display: flex;
     align-items: center;
-    width: 1180px;
     height: 22px; 
     font-size: 16px;
     font-weight: 700;
     line-height: 13.3px;
     color: #FFFFFF;
+}
+body{
+    box-sizing: border-box;
 }
 .search__bar{
     display: flex;
@@ -131,29 +131,27 @@ body{
     font-weight: 500;
     color: #000000;
     line-height: 13.3px;
+    padding: 0px 8px;
 }
 .selector__word:hover {
   cursor: pointer;
 }
-.input{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 300px;
-    height: 46px; 
-    background: #FFFFFF;
-}
 .input__word{
     display: flex;
     align-items: center;
-    width: 270px;
-    height: 16px; 
+    width: 300px; 
+    background: #FFFFFF;
     font-size: 16px;
     font-weight: 700;
-    color: #757575;
+    color: #000000;
     line-height: 13.3px;
     border: none;
     outline: none; /* 移除點擊時的外框 */
+    padding: 15px;
+    box-sizing: border-box;
+}
+.input__word::placeholder {
+    color: #757575; 
 }
 .btn{
     display: flex;
@@ -162,6 +160,9 @@ body{
     width: 60px;
     height: 46px; 
     background: #448899;
+}
+.btn:hover {
+  cursor: pointer;
 }
 .btn__img{
     width: 30px;
@@ -204,7 +205,6 @@ body{
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: 966px; 
     padding-top: 40px;
     padding-bottom: 40px;
     box-sizing: border-box;
@@ -244,14 +244,17 @@ body{
     opacity: 0.5;
 }
 .list__button-left:hover {
-  cursor: pointer;
+    cursor: pointer;
+    opacity: 1;
 }
 .list__button-right{
     width: 32px;
     height: 32px;
+    opacity: 0.5;
 }
 .list__button-right:hover {
-  cursor: pointer;
+    cursor: pointer;
+    opacity: 1;
 }
 .listItem__container{
     display: flex;
@@ -277,18 +280,17 @@ body{
 }
 .listItem:hover {
   cursor: pointer;
+  color: #000000;
 }
 .attractions{
     width: 1200px;
-    height: 816px;
     padding: 15px;
     margin-bottom: 40px;
+    box-sizing: border-box;
 }
 .attractions__group{
     display: grid;
     justify-content: flex-start;
-    width: 1170px;
-    height: 786px;
     gap: 30px;
     grid-template-columns: repeat(auto-fill, 270px);
     grid-auto-rows: 242px; /*圖片高度*/
@@ -331,11 +333,6 @@ body{
     line-height: 13.3px;
     z-index: 1;
 }
-/* .attraction__word{
-    display: flex;
-    align-items: center;
-    height: 20px; 
-     */
 .attraction__detail{
     display: flex;
     justify-content: center;
@@ -386,4 +383,47 @@ body{
     font-weight: 700;
     line-height: 13.3px;
     color: #FFFFFF;
+}
+@media (max-width: 1200px){
+.title{
+    width: 600px;
+}
+.herocontent{
+    width: 600px;
+}
+.list__bar{
+    width: 600px;
+}
+.list__container{
+    width: 506px;
+}
+.attractions{
+    width: 600px;
+}
+}
+@media (max-width: 600px){
+.title{
+    width: 360px;
+}
+.herocontent{
+    width: 340px;
+}
+.search__bar{
+    width: 320px;
+}
+.input__word{
+    width: 160px; 
+}
+.list__bar{
+    width: 360px;
+}
+.list__container{
+    width: 266px;
+}
+.attractions{
+    width: 360px;
+}
+.attractions__group{
+    justify-content: center;
+}
 }
