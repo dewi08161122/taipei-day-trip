@@ -1,4 +1,4 @@
-import mysql.connector ,json
+import mysql.connector ,json 
 con=mysql.connector.connect(
 	user="root",
 	password="11221122",
@@ -28,5 +28,6 @@ with open("data/taipei-attractions.json", "r", encoding="utf-8") as file:
 			if img.lower().endswith((".jpg", ".png")): # .lower()是把img內容都轉成小寫來比對，.endswith是針對字尾比對
 				images.append("https"+img)
 		images_str = json.dumps(images) # json.dumps()可以把內容轉成json格式並保持結構
-		cursor.execute("INSERT INTO travel(name,category,description,address,transport,MRT,lat,log,images) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)",[newdata['name'],newdata['CAT'],newdata['description'],newdata['address'],newdata['direction'],newdata['MRT'],newdata['latitude'],newdata['longitude'],images_str])
-	con.commit()
+		category_clean = "".join(newdata['CAT'].split()) # 用split()分割文字再用"".join連起來去除空白
+		cursor.execute("INSERT INTO travel(name,category,description,address,transport,MRT,lat,log,images) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)",[newdata['name'],category_clean,newdata['description'],newdata['address'],newdata['direction'],newdata['MRT'],newdata['latitude'],newdata['longitude'],images_str])
+		con.commit()
