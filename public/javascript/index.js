@@ -94,6 +94,12 @@ async function loadAttractions(page, category, keyword) {
     });
     nextpage = result.nextpage;
     loading = false; // 跑一次就關閉防止函式重複跑
+    if (
+        nextpage !== null &&
+        footer.getBoundingClientRect().top < window.innerHeight  // 會偵測footer有沒有出現在畫面中,有就直接跑下一頁直到不再畫面中
+    ) {
+        loadAttractions(nextpage, nowcategory, nowkeyword);
+    }
 }
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -103,7 +109,7 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, {
     root: null, // 整個可視區域
-    rootMargin: "200px",// 距離監控點前多少px遇到開始執行
+    rootMargin: "0px",// 距離監控點前多少px遇到開始執行
     threshold: 0, // 只要露出一點點就算進入 
 });
 observer.observe(footer);
