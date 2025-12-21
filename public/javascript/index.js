@@ -30,7 +30,6 @@ async function getHomepage() {
         listItem.classList.add("listItem");
         listItem__container.appendChild(listItem);
     });   
-    loadAttractions();    
 }
 getHomepage();
 
