@@ -8,6 +8,7 @@ def get_connection():
 		)
 from fastapi import FastAPI, Body, Request, Query
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 app=FastAPI()
 app.add_middleware(SessionMiddleware,secret_key="1111")
@@ -57,6 +58,11 @@ def search(page: int = Query(0, ge=0),category: str = Query(None),
 			cursor.execute("SELECT COUNT(*) FROM travel WHERE category=%s",[category])
 			total=cursor.fetchone()[0]
 			cursor.execute("SELECT * FROM travel WHERE category=%s LIMIT %s,%s",[category,page*8,8])
+		elif category ==None:
+			likekeyword="%"+keyword+"%"
+			cursor.execute("SELECT COUNT(*) FROM travel WHERE mrt=%s OR name LIKE %s",[keyword,likekeyword])
+			total=cursor.fetchone()[0]
+			cursor.execute("SELECT * FROM travel WHERE mrt=%s OR name LIKE %s LIMIT %s,%s",[keyword,likekeyword,page*8,8])
 		else:
 			likekeyword="%"+keyword+"%"
 			cursor.execute("SELECT COUNT(*) FROM travel WHERE  category=%s OR mrt=%s OR name LIKE %s",[category,keyword,likekeyword])
@@ -131,7 +137,7 @@ def listMrts():
 	try:
 		cursor.execute("SELECT mrt, COUNT(*) AS total FROM travel GROUP BY mrt ORDER BY total DESC")
 		result=cursor.fetchall()
-		data=[i[0] for i in result]				
+		data=[i[0] for i in result if i[0] != None]			
 		return{"data":data}
 	except:
 		return{"error":True,"message":"伺服器內部錯誤"}
@@ -154,3 +160,8 @@ async def booking(request: Request):
 @app.get("/thankyou", include_in_schema=False)
 async def thankyou(request: Request):
 	return FileResponse("./static/thankyou.html", media_type="text/html")
+
+app.mount("/css", StaticFiles(directory="public/css"), name="css")
+app.mount("/js", StaticFiles(directory="public/javascript"), name="js")
+app.mount("/img", StaticFiles(directory="public/image"), name="img")
+app.mount("/", StaticFiles(directory="static", html=True))
