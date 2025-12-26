@@ -7,6 +7,7 @@ const selector__word = document.querySelector(".selector__word");
 const input__word = document.querySelector(".input__word");
 const searchbtn = document.querySelector(".btn");
 const footer = document.querySelector(".footer");
+const attraction = document.querySelector(".attraction");
 
 async function getHomepage() {
     let responseCategories=await fetch("/api/categories",{
@@ -15,7 +16,7 @@ async function getHomepage() {
     let resultCategories=await responseCategories.json();
     resultCategories.data.forEach(category => {
         let category_tag=document.createElement("div"); // 建立放入文字的div
-        category_tag.textContent=category; // 加上文字元素來源並去除空白
+        category_tag.textContent=category; // 加上文字元素來源
         category_tag.classList.add("category__word"); // 加上文字使用的CSS
         category__menu.appendChild(category_tag); // 放入文字
     });
@@ -56,7 +57,8 @@ async function loadAttractions(page, category, keyword) {
         result = await response.json()
     }
     result.data.forEach(attractions => {
-        let attraction = document.createElement("div");
+        let attraction = document.createElement("a");
+        attraction.href = `/attraction/${attractions.id}`
         attraction.classList.add("attraction");
 
         let attraction__container = document.createElement("div");
