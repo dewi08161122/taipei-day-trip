@@ -5,18 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>首頁</title>
   <link rel="stylesheet" type="text/css" href="/css/index.css" />
+  <link rel="stylesheet" type="text/css" href="/css/sign.css" />
 </head>
 <body>
+  <div class="opacity"></div>
   <div class="navigation">
     <div class="title">
       <div class="title__word">台北一日遊</div>
       <div class="title__container">
         <div class="title__button">預定行程</div>
-        <div class="title__button">登入/註冊</div>
+        <div class="title__button" id="account">登入/註冊</div>
       </div>
     </div>
   </div>
   <div class="welcome">
+    <div class="login">
+      <div class="account__bar"></div>
+      <div class="account">
+        <img src="/img/close.png" class="close" />
+        <div class="account__title">登入會員帳號</div>
+        <input class="email" id="login__email" type="text" placeholder="輸入電子信箱"/>
+        <input class="password" id="login__password" type="password" placeholder="輸入密碼"/>
+        <div class="account__button" id="login__button">登入帳戶</div>
+        <div class="account__word" id="login__word">還沒有帳戶？點此註冊</div>
+      </div>
+    </div>
+    <div class="sgin">
+      <div class="account__bar"></div>
+      <div class="account">
+        <img src="/img/close.png" class="close" />
+        <div class="account__title">註冊會員帳號</div>
+        <input class="name" id="sgin__name" type="text" placeholder="輸入姓名"/>
+        <input class="email" id="sgin__email" type="text" placeholder="輸入電子信箱"/>
+        <input class="password" id="sgin__password" type="password" placeholder="輸入密碼"/>
+        <div class="account__button" id="sgin__button">註冊新帳戶</div>
+        <div class="account__word" id="sgin__word">已經有帳戶了？點此登入</div>
+      </div>
+    </div>
     <div class="herocontent">
       <div class="background__word">
         <div class="slogan">
@@ -76,5 +101,6 @@
     <div class="footer__word">COPYRIGHT © 2021 台北一日遊</div>
   </div>
   <script src="/js/index.js"></script>
+  <script src="/js/sign.js"></script>
 </body>
 </html>
