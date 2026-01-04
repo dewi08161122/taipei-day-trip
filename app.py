@@ -1,4 +1,4 @@
-import mysql.connector ,json
+import mysql.connector ,json ,jwt
 def get_connection():
 	return mysql.connector.connect(
 		user="root",
@@ -6,12 +6,11 @@ def get_connection():
 		host="localhost",
 		database="taipei"
 		)
-from fastapi import FastAPI, Body, Request, Query
+from fastapi import FastAPI, Body, Request, Query, Header
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from starlette.middleware.sessions import SessionMiddleware
+from datetime import datetime, timedelta
 app=FastAPI()
-app.add_middleware(SessionMiddleware,secret_key="1111")
 con = get_connection()
 cursor=con.cursor()
 cursor.execute("CREATE TABLE IF NOT EXISTS member(" \
@@ -21,15 +20,14 @@ cursor.execute("CREATE TABLE IF NOT EXISTS member(" \
 "password varchar(255) not null);"
 )
 con.commit()
+SECRET_KEY = "11221122"
+ALGORITHM = "HS256"
 
 @app.post("/api/user")
-def signup(body=Body(None)):
-	body=json.loads(body)
+def sign(body: dict=Body(...)):
 	name=body["name"]
 	email=body["email"]
 	password=body["password"]
-	if name==None or email==None or password==None:
-		return{"error":True,"message":"請提供完整資料，空白處都要填寫"}
 	try:
 		con = get_connection()
 		cursor=con.cursor()
@@ -43,6 +41,51 @@ def signup(body=Body(None)):
 			return{"error":True,"message":"此信箱已被註冊"}
 	except:
 		return{"error":True,"message":"伺服器出現未知問題"}
+
+
+@app.get("/api/user/auth")
+def check(authorization: str=Header(None)):
+	con = get_connection()
+	cursor=con.cursor()
+	try:
+		scheme, token = authorization.split()
+		if token=="":
+			return{"error":True}
+		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+		cursor.execute("SELECT * FROM member WHERE id=%s and name=%s and email=%s",[payload["id"],payload["name"],payload["email"]])
+		result=cursor.fetchone()
+		if result==None:
+			return{"error":True}
+		else:
+			return{"ok":True}
+	except:
+		return{"error":True}
+	
+@app.put("/api/user/auth")
+def login(body: dict=Body(...)):
+	email=body["email"]
+	password=body["password"]
+	con = get_connection()
+	cursor=con.cursor()
+	try:
+		cursor.execute("SELECT * FROM member WHERE email=%s",[email])
+		result=cursor.fetchone()
+		if result==None:
+			return{"error":True,"message":"信箱輸入錯誤"}
+		elif result[3]!=password:
+			return{"error":True,"message":"密碼輸入錯誤"}
+		else:
+			payload = {
+				"id": result[0],
+				"name": result[1],
+				"email": result[2],
+				"exp": datetime.now() + timedelta(days=7)
+			}
+			token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+			return{"token":token}
+	except:
+		return{"error":True,"message":"伺服器內部錯誤"}
+
 
 @app.get("/api/attractions")
 def search(page: int = Query(0, ge=0),category: str = Query(None), 

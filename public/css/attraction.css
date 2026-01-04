@@ -47,6 +47,7 @@ body{
     line-height: 13.3px;
     color: #666666;
     padding: 10px;
+    cursor: pointer;
 }
 .attraction{
     display: flex;
