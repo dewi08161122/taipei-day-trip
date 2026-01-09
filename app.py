@@ -9,7 +9,7 @@ def get_connection():
 from fastapi import FastAPI, Body, Request, Query, Header
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 app=FastAPI()
 con = get_connection()
 cursor=con.cursor()
@@ -18,6 +18,14 @@ cursor.execute("CREATE TABLE IF NOT EXISTS member(" \
 "name varchar(255) not null," \
 "email varchar(255) not null," \
 "password varchar(255) not null);"
+)
+cursor.execute("CREATE TABLE IF NOT EXISTS booking(" \
+"id BIGINT unsigned not null primary key auto_increment," \
+"userId varchar(255) not null," \
+"attractionId varchar(255) null," \
+"bookingDate DATE not null," \
+"bookingTime varchar(255) not null," \
+"price varchar(255) not null);"
 )
 con.commit()
 SECRET_KEY = "11221122"
@@ -42,7 +50,6 @@ def sign(body: dict=Body(...)):
 	except:
 		return{"error":True,"message":"伺服器出現未知問題"}
 
-
 @app.get("/api/user/auth")
 def check(authorization: str=Header(None)):
 	con = get_connection()
@@ -54,10 +61,15 @@ def check(authorization: str=Header(None)):
 		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
 		cursor.execute("SELECT * FROM member WHERE id=%s and name=%s and email=%s",[payload["id"],payload["name"],payload["email"]])
 		result=cursor.fetchone()
+		data={
+			"id": result[0],
+    		"name": result[1],
+    		"email": result[2]
+		}
 		if result==None:
 			return{"error":True}
 		else:
-			return{"ok":True}
+			return{"ok":True, "data":data}
 	except:
 		return{"error":True}
 	
@@ -85,7 +97,6 @@ def login(body: dict=Body(...)):
 			return{"token":token}
 	except:
 		return{"error":True,"message":"伺服器內部錯誤"}
-
 
 @app.get("/api/attractions")
 def search(page: int = Query(0, ge=0),category: str = Query(None), 
@@ -157,6 +168,7 @@ def searchID(attractionId: int):
 				"lng": result[8],
 				"images": json.loads(result[9])
 			}
+			print(data)
 			return{"data":data}
 	except:
 		return{"error":True,"message":"伺服器內部錯誤"}
@@ -185,9 +197,90 @@ def listMrts():
 	except:
 		return{"error":True,"message":"伺服器內部錯誤"}
 
+@app.get("/api/booking")
+def getbooking(authorization: str=Header(None)):
+	try:
+		if authorization is None:
+			return {"error": True, "message": "未登入系統，拒絕存取"}
+		con = get_connection()
+		cursor=con.cursor()
+		scheme, token = authorization.split()
+		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+		cursor.execute("SELECT * FROM member WHERE id=%s and name=%s and email=%s",[payload["id"],payload["name"],payload["email"]])
+		result=cursor.fetchone()
+		if result==None:
+			return{"error":True, "message": "未登入系統，拒絕存取"}
+		cursor.execute("SELECT * FROM booking WHERE userId=%s",[payload["id"]])
+		result=cursor.fetchone()
+		if result==None:
+			return{"data": None}
+		cursor.execute("SELECT * FROM travel WHERE id=%s",[result[2]])
+		resultAttraction=cursor.fetchone()
+		images = json.loads(resultAttraction[9])
+		data={
+			"attraction": {
+				"id": resultAttraction[0],
+				"name": resultAttraction[1],
+				"address": resultAttraction[4],
+				"image": images[0]
+			},
+			"date": result[3].isoformat(),
+			"time": result[4],
+			"price": result[5]
+		}
+		print(data)
+		return{"data":data}
+	except:
+		return{"error":True,"message":"伺服器出現未知問題"}
 
+@app.post("/api/booking")
+def booking(body: dict=Body(...), authorization: str=Header(None)):
+	attractionId=body["attractionId"]
+	bookingDate = date.fromisoformat(body["bookingDate"]) # 把字串轉換成date型式
+	bookingTime=body["bookingTime"]
+	price=body["price"]
+	try:
+		if authorization is None:
+			return {"error": True, "message": "未登入系統，拒絕存取"}
+		con = get_connection()
+		cursor=con.cursor()
+		scheme, token = authorization.split()
+		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+		cursor.execute("SELECT * FROM member WHERE id=%s and name=%s and email=%s",[payload["id"],payload["name"],payload["email"]])
+		result=cursor.fetchone()
+		cursor.execute("SELECT * FROM booking WHERE userId=%s",[payload["id"]])
+		resultBooking=cursor.fetchone()
+		if result==None:
+			return{"error":True, "message": "未登入系統，拒絕存取"}
+		elif bookingDate < date.today():
+			return {"error": True, "message": "不能選過去的日期"}
+		elif resultBooking != None:
+			cursor.execute("DELETE FROM booking WHERE userId=%s",[payload["id"]])
+		cursor.execute("INSERT INTO booking (userId,attractionId,bookingDate,bookingTime,price) VALUES(%s,%s,%s,%s,%s)",[payload["id"],attractionId, bookingDate, bookingTime, price])
+		con.commit()
+		return{"ok":True}
+	except:
+		return{"error":True,"message":"伺服器出現未知問題"}
 
-
+@app.delete("/api/booking")
+def cancle(authorization: str=Header(None)):
+	try:
+		if authorization is None:
+			return {"error": True, "message": "未登入系統，拒絕存取"}
+		con = get_connection()
+		cursor=con.cursor()
+		scheme, token = authorization.split()
+		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+		cursor.execute("SELECT * FROM member WHERE id=%s and name=%s and email=%s",[payload["id"],payload["name"],payload["email"]])
+		result=cursor.fetchone()
+		if result==None:
+			return{"error":True, "message": "未登入系統，拒絕存取"}
+		else:
+			cursor.execute("DELETE FROM booking WHERE userId=%s",[payload["id"]])
+			con.commit()
+			return{"ok":True}
+	except:
+		return{"error":True,"message":"伺服器出現未知問題"}
 
 
 # Static Pages (Never Modify Code in this Block)

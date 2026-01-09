@@ -4,8 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking</title>
+  <link rel="stylesheet" type="text/css" href="/css/booking.css" />
 </head>
 <body>
-  
+  <div class="navigation">
+    <div class="title">
+      <div class="title__word">台北一日遊</div>
+      <div class="title__container">
+        <div class="title__button">預定行程</div>
+        <div class="title__button" id="account">登出系統</div>
+      </div>
+    </div>
+  </div>
+  <div class="booking">
+    <div class="headline"></div>
+    <div class="nobooking none">目前沒有任何待預訂的行程</div>
+    <div class="attraction">
+      <img class="attraction__image" />
+      <div class="attraction__infor">
+        <img src="/img/delete.png" class="delete" />
+        <div class="attraction__title"></div>
+        <div class="attraction__tag">日期：
+          <spen class="attraction__word" id="bookingDate"></spen>
+        </div>
+        <div class="attraction__tag">時間：
+          <spen class="attraction__word" id="bookingTime"></spen>
+        </div>
+        <div class="attraction__tag">費用：
+          <spen class="attraction__word" id="price"></spen>
+        </div>
+        <div class="attraction__tag">地點：
+          <spen class="attraction__word" id="address"></spen>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="information">
+      <div class="information__title">您的聯絡資訊</div>
+      <div class="information__tag">聯絡姓名：
+        <input class="information__word" id="username"/>
+      </div>
+      <div class="information__tag">聯絡信箱：
+        <input class="information__word" id="useremail"/>
+      </div>
+      <div class="information__tag">手機號碼：
+        <input class="information__word"/>
+      </div>
+      <div class="information__notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+    </div>
+    <hr>
+    <div class="creditCard">
+      <div class="information__title">信用卡付款資訊</div>
+      <div class="information__tag">卡片號碼：
+        <input class="information__word" type="text" placeholder="**** **** **** ****"/>
+      </div>
+      <div class="information__tag">過期時間：
+        <input class="information__word" type="text" placeholder="MM/YY"/>
+      </div>
+      <div class="information__tag">驗證密碼：
+        <input class="information__word" type="text" placeholder="CVV"/>
+      </div>
+    </div>
+    <hr>
+    <div class="order">
+      <div class="order__price"></div>
+      <div class="order__button">確認訂購並付款</div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer__word">COPYRIGHT © 2021 台北一日遊</div>
+  </div>
+  <script src="/js/booking.js"></script>
 </body>
 </html>

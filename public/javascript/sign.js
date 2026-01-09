@@ -1,4 +1,5 @@
 const account = document.getElementById("account"); // 抓id專用
+const booking = document.getElementById("booking");
 const opacity = document.querySelector(".opacity");
 const login = document.querySelector(".login");
 const sgin = document.querySelector(".sgin");
@@ -87,6 +88,14 @@ account.addEventListener('click', ()=>{
     }
     login.style.display="block";
     opacity.style.display="block";
+})
+booking.addEventListener('click', ()=>{
+    if (token == "") {
+        login.style.display="block";
+        opacity.style.display="block";
+    }else{
+        window.location.href="/booking";
+    }
 })
 closes.forEach(close => {
     close.addEventListener("click", () => {
