@@ -7,20 +7,22 @@ const transport = document.querySelector(".transport");
 const input__word = document.querySelector(".input__word");
 const date__img = document.querySelector(".date__img");
 const title__word = document.querySelector(".title__word");
-const time__button_up = document.querySelector(".time__button-up");
-const time__button_down = document.querySelector(".time__button-down");
+const morning = document.getElementById("morning");
+const afternoon = document.getElementById("afternoon");
 const price = document.querySelector(".price");
 const attraction__image = document.querySelector(".attraction__image");
 const indicator__bar = document.querySelector(".indicator__bar");
 const image__button_left = document.querySelector(".image__button-left");
 const image__button_right = document.querySelector(".image__button-right");
+const booking__button = document.querySelector(".booking__button");
 
-const id=window.location.pathname;
+
+const id = window.location.pathname.split("/").pop(); 
 let images = [];
 let bars = [];
 let currentIndex = 0;
 async function getAttractionpage() {
-    let response=await fetch(`/api${id}`,{
+    let response=await fetch(`/api/attraction/${id}`,{
         method:"GET"
     });
     let result=await response.json();
@@ -74,16 +76,54 @@ date__img.addEventListener("click", () => {
 });
 
 title__word.addEventListener("click", ()=>{
-    location.href = "/";
+    window.location.href = "/";
 });
 
-time__button_up.addEventListener("click", ()=>{
-    time__button_up.style.backgroundColor="#448899";
-    time__button_down.style.backgroundColor="#FFFFFF";
+morning.addEventListener("click", ()=>{
+    morning.classList.add("active");
+    afternoon.classList.remove("active");
     price.textContent="新台幣 2000 元"
 });
-time__button_down.addEventListener("click", ()=>{
-    time__button_up.style.backgroundColor="#FFFFFF";
-    time__button_down.style.backgroundColor="#448899";
+afternoon.addEventListener("click", ()=>{
+    afternoon.classList.add("active");
+    morning.classList.remove("active");
     price.textContent="新台幣 2500 元"
+});
+booking__button.addEventListener("click", async()=>{
+    let attractionId=id
+    let bookingDate=input__word.value
+    let bookingTime=""
+    let bookingPrice=""
+    if (morning.classList.contains("active")) {
+        bookingTime="morning"
+        bookingPrice="2000"
+    } else if (afternoon.classList.contains("active")) {
+        bookingTime="afternoon"
+        bookingPrice="2500"
+    }
+    if (token == "") {
+        login.style.display="block";
+        opacity.style.display="block";
+        return
+    }else if(bookingDate==""){
+        alert("請選擇日期");
+        return;
+    }else{
+        let response=await fetch("/api/booking",{
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+        },
+        body:JSON.stringify({"attractionId":attractionId, "bookingDate":bookingDate, "bookingTime":bookingTime, "price":bookingPrice})
+        })
+        let result=await response.json();
+        if (result.ok){
+            window.location.href="/booking";
+            return
+        } else if(result.error){
+            alert(result.message);
+            return;
+        }
+    }
 });

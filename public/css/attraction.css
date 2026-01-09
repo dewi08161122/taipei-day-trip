@@ -273,16 +273,7 @@ input[type="date"]:valid + .placeholder {/* 是選type="date"的input後面的.p
     line-height: 13.3px;
     margin: 4px 8px 4px 4px;
 }
-.time__button-up{
-    height: 18px;
-    width: 18px;
-    margin-left: 5px;
-    background-color: #448899;
-    border-radius: 50%;
-    border: 2px solid #FFFFFF;
-    cursor: pointer;
-}
-.time__button-down{
+.time__button{
     height: 18px;
     width: 18px;
     margin-left: 5px;
@@ -290,6 +281,9 @@ input[type="date"]:valid + .placeholder {/* 是選type="date"的input後面的.p
     border-radius: 50%;
     border: 2px solid #FFFFFF;
     cursor: pointer;
+}
+.time__button.active {
+    background-color: #448899;
 }
 .booking__price{
     display: flex;
