@@ -95,7 +95,7 @@ async function loadAttractions(page, category, keyword) {
         attractions__group.appendChild(attraction);
     });
     nextpage = result.nextpage;
-    loading = false; // 跑一次就關閉防止函式重複跑
+    loading = false; // 跑到底才重新打開防止函式重複跑
     if (
         nextpage !== null &&
         footer.getBoundingClientRect().top < window.innerHeight  // 會偵測footer有沒有出現在畫面中,有就直接跑下一頁直到不再畫面中
