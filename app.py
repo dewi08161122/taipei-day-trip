@@ -1,4 +1,5 @@
 import mysql.connector ,json ,jwt
+import mysql.connector.pooling
 def get_connection():
 	return mysql.connector.connect(
 		user="root",
@@ -10,6 +11,7 @@ from fastapi import FastAPI, Body, Request, Query, Header
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime, timedelta, date
+import requests
 app=FastAPI()
 con = get_connection()
 cursor=con.cursor()
@@ -21,15 +23,35 @@ cursor.execute("CREATE TABLE IF NOT EXISTS member(" \
 )
 cursor.execute("CREATE TABLE IF NOT EXISTS booking(" \
 "id BIGINT unsigned not null primary key auto_increment," \
-"userId varchar(255) not null," \
-"attractionId varchar(255) null," \
+"userId BIGINT unsigned not null," \
+"attractionId BIGINT unsigned not null," \
 "bookingDate DATE not null," \
 "bookingTime varchar(255) not null," \
-"price varchar(255) not null);"
+"price INT not null," \
+"FOREIGN KEY (attractionId) REFERENCES travel (id)," \
+"FOREIGN KEY (userId) REFERENCES member (id));"
+)
+cursor.execute("CREATE TABLE IF NOT EXISTS orders(" \
+"id BIGINT unsigned not null primary key auto_increment," \
+"orderId VARCHAR(255) NOT NULL," \
+"userId BIGINT unsigned not null," \
+"attractionId BIGINT unsigned not null," \
+"orderName varchar(255) not null," \
+"orderEmail varchar(255) not null," \
+"orderPhone varchar(255) not null," \
+"orderDate DATE not null," \
+"orderTime varchar(255) not null," \
+"paymentTime varchar(255) null," \
+"price INT not null," \
+"status varchar(255) not null," \
+"FOREIGN KEY (attractionId) REFERENCES travel (id)," \
+"FOREIGN KEY (userId) REFERENCES member (id));"
 )
 con.commit()
 SECRET_KEY = "11221122"
 ALGORITHM = "HS256"
+partner_key="partner_L4JiZnrr7qnfKI4BOTiOKWiRRLCp5HspdM5iqR3JDfsns9OGqPFFN3eH"
+merchant_id="1122yes_GP_POS_2"
 
 @app.post("/api/user")
 def sign(body: dict=Body(...)):
@@ -52,25 +74,13 @@ def sign(body: dict=Body(...)):
 
 @app.get("/api/user/auth")
 def check(authorization: str=Header(None)):
-	con = get_connection()
-	cursor=con.cursor()
-	try:
+	if authorization is None:
+		return {"error": True, "message": "未登入系統，拒絕存取"}
+	try:		
 		scheme, token = authorization.split()
-		if token=="":
-			return{"error":True}
 		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-		cursor.execute("SELECT * FROM member WHERE id=%s and name=%s and email=%s",[payload["id"],payload["name"],payload["email"]])
-		result=cursor.fetchone()
-		data={
-			"id": result[0],
-    		"name": result[1],
-    		"email": result[2]
-		}
-		if result==None:
-			return{"error":True}
-		else:
-			return{"ok":True, "data":data}
-	except:
+		return{"ok":True, "data":payload}
+	except :
 		return{"error":True}
 	
 @app.put("/api/user/auth")
@@ -168,7 +178,6 @@ def searchID(attractionId: int):
 				"lng": result[8],
 				"images": json.loads(result[9])
 			}
-			print(data)
 			return{"data":data}
 	except:
 		return{"error":True,"message":"伺服器內部錯誤"}
@@ -228,17 +237,16 @@ def getbooking(authorization: str=Header(None)):
 			"time": result[4],
 			"price": result[5]
 		}
-		print(data)
 		return{"data":data}
 	except:
 		return{"error":True,"message":"伺服器出現未知問題"}
 
 @app.post("/api/booking")
 def booking(body: dict=Body(...), authorization: str=Header(None)):
-	attractionId=body["attractionId"]
+	attractionId=int(body["attractionId"])
 	bookingDate = date.fromisoformat(body["bookingDate"]) # 把字串轉換成date型式
 	bookingTime=body["bookingTime"]
-	price=body["price"]
+	price=int(body["price"])
 	try:
 		if authorization is None:
 			return {"error": True, "message": "未登入系統，拒絕存取"}
@@ -279,6 +287,117 @@ def cancle(authorization: str=Header(None)):
 			cursor.execute("DELETE FROM booking WHERE userId=%s",[payload["id"]])
 			con.commit()
 			return{"ok":True}
+	except:
+		return{"error":True,"message":"伺服器出現未知問題"}
+
+@app.post("/api/orders")
+def order(body: dict=Body(...),authorization: str=Header(None)):
+	now = datetime.now()
+	prime=body["prime"]
+	attractionId=int(body["order"]["trip"]["attraction"]["id"])
+	orderName=body["order"]["contact"]["name"]
+	orderEmail=body["order"]["contact"]["email"]
+	orderPhone=body["order"]["contact"]["phone"]
+	orderDate=date.fromisoformat(body["order"]["trip"]["date"])
+	orderTime=body["order"]["trip"]["time"]
+	price=int(body["order"]["price"])
+	paymentTime = now.strftime("%Y-%m-%d %H:%M:%S")
+	status="unpaid"
+	if authorization is None:
+		return {"error": True, "message": "未登入系統，拒絕存取"}
+	if not orderName or not orderEmail or not orderPhone:
+		return {"error": True, "message": "請填寫聯絡資訊"}
+	try:		
+		con = get_connection()
+		cursor=con.cursor()
+		scheme, token = authorization.split()
+		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+		id=int(payload["id"])
+		orderId = now.strftime("%Y%m%d%H%M%S") + str(id)
+		cursor.execute("INSERT INTO orders (orderId,userId,attractionId,orderName,orderEmail,orderPhone,orderDate,orderTime,paymentTime,price,status) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",[orderId, id,attractionId, orderName, orderEmail, orderPhone, orderDate, orderTime, paymentTime, price, status])
+		con.commit()
+		url="https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+		headers={
+			"Content-Type": "application/json",
+			"x-api-key" : partner_key
+			}
+		body={
+			"prime": prime,
+			"partner_key": partner_key,
+			"merchant_id": merchant_id,
+			"details":"TapPay Test",
+			"amount": price,
+			"cardholder": {
+				"phone_number": orderPhone,
+				"name": orderName,
+				"email": orderEmail,
+				},
+				"remember": False
+			}
+		response = requests.post(url, json=body, headers=headers).json()
+		if response["status"] == 0:
+			cursor.execute("UPDATE orders SET status=%s WHERE orderId=%s",["paid",orderId])
+			cursor.execute("DELETE FROM booking WHERE userId=%s",[id])
+			con.commit()
+			data={
+				"number": orderId,
+				"payment": {
+					"status": 0,
+					"message": "付款成功"
+				}
+			}
+			return{"data":data}
+		else:
+			data={
+				"number": orderId,
+				"payment": {
+					"status": response.get("status"),
+					"message": "付款失敗"
+				}
+			}
+			return {"error":True,"message":data}
+	except:
+		return{"error":True,"message":"伺服器出現未知問題"}
+	finally:
+		if con and con.is_connected():
+			cursor.close()
+			con.close()
+
+@app.get("/api/order/{orderNumber}")
+def getbooking(orderNumber: str,authorization: str=Header(None),):
+	if authorization is None:
+		return {"error": True, "message": "未登入系統，拒絕存取"}
+	try:		
+		con = get_connection()
+		cursor=con.cursor()
+		scheme, token = authorization.split()
+		payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+		id=int(payload["id"])
+		cursor.execute("SELECT o.*, t.id AS attraction_id, t.name AS attraction_name, t.address AS attraction_address, t.images AS attraction_images FROM orders o INNER JOIN travel t ON t.id=o.attractionId WHERE o.userId =%s AND o.orderId=%s",[id, orderNumber])
+		result=cursor.fetchone()
+		print(result)
+		image = json.loads(result[15])
+		data={
+			"number": result[1],
+			"price": int(result[10]),
+			"trip": {
+				"attraction": {
+					"id": int(result[12]),
+					"name": result[13],
+					"address": result[14],
+					"image": image
+				},
+				"date": result[7],
+				"time": result[8]
+			},
+			"contact": {
+				"name": result[4],
+				"email": result[5],
+				"phone": result[6]
+			},
+			"status": result[11]
+		}
+		return{"data":data}
 	except:
 		return{"error":True,"message":"伺服器出現未知問題"}
 

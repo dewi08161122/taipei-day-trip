@@ -1,0 +1,126 @@
+body{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin:0px;
+    height: 100vh;
+    font-family: "Noto Sans TC";
+    font-style: normal;
+}
+.navigation{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 54px;
+    border-bottom: 1px solid #E8E8E8;
+    box-sizing: border-box;
+}
+.title{
+    display: flex;
+    align-items: center;
+    width: 1200px;
+    height: 34px;  
+}
+.title__word{
+    display: flex;
+    align-items: center;
+    width: 150px;
+    height: 34px; 
+    font-size: 30px;
+    font-weight: 700;
+    color: #448899;
+    padding-left: 10px;
+    cursor: pointer;
+}
+.title__container{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    width: 175px;
+    height: 34px;
+}
+.title__button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 34px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 13.3px;
+    color: #666666;
+    padding: 10px;
+    cursor: pointer;
+}
+.order{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 1200px;
+    margin: 40px 0px;
+}
+.headline{
+    width: 1000px;
+    height: 27px; 
+    font-size: 19px;
+    font-weight: 700;
+    color: #666666;
+    margin-bottom: 30px;
+}
+.order__status{
+    width: 980px;
+    height: 24px; 
+    font-size: 16px;
+    font-weight: 400;
+    color: #666666;
+}
+.footer{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    flex: 1;
+    min-height: 104px;
+    background: #757575;
+}
+.footer__word{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    width: 234px;
+    height: 24px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 13.3px;
+    color: #FFFFFF;
+}
+
+@media (max-width: 1200px){
+.title{
+    width: 600px;
+}
+.order{
+    width: 580px;
+}
+.headline{
+    width: 580px;
+}
+.order__status{
+    width: 580px;
+}
+}
+@media (max-width: 600px){
+.title{
+    width: 360px;
+}
+.order{
+    width: 340px;
+}
+.headline{
+    width: 340px;
+}
+.order__status{
+    width: 340px;
+}
+}

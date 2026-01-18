@@ -48,7 +48,7 @@
         <input class="information__word" id="useremail"/>
       </div>
       <div class="information__tag">手機號碼：
-        <input class="information__word"/>
+        <input class="information__word" id="userphone"/>
       </div>
       <div class="information__notice">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
     </div>
@@ -56,13 +56,13 @@
     <div class="creditCard">
       <div class="information__title">信用卡付款資訊</div>
       <div class="information__tag">卡片號碼：
-        <input class="information__word" type="text" placeholder="**** **** **** ****"/>
+        <div class="information__word" id="card-number"></div>
       </div>
       <div class="information__tag">過期時間：
-        <input class="information__word" type="text" placeholder="MM/YY"/>
+        <div class="information__word" id="card-expiration-date"></div>
       </div>
       <div class="information__tag">驗證密碼：
-        <input class="information__word" type="text" placeholder="CVV"/>
+        <div class="information__word" id="card-ccv"></div>
       </div>
     </div>
     <hr>
@@ -74,6 +74,7 @@
   <div class="footer">
     <div class="footer__word">COPYRIGHT © 2021 台北一日遊</div>
   </div>
+  <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
   <script src="/js/booking.js"></script>
 </body>
 </html>
