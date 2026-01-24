@@ -149,6 +149,7 @@ async function payment(order, prime) {
         });
         let result=await response.json();
         if (result.error){
+            console.log(result.message)
             alert(result.message);
         }else{
             window.location.href = `/thankyou?number=${result.data.number}`;
