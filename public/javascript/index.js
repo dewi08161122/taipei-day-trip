@@ -94,7 +94,7 @@ async function loadAttractions(page, category, keyword) {
 
         attractions__group.appendChild(attraction);
     });
-    nextpage = result.nextpage;
+    nextpage = result.nextPage;
     loading = false; // 跑到底才重新打開防止函式重複跑
     if (
         nextpage !== null &&

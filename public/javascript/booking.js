@@ -114,6 +114,10 @@ order__button.addEventListener('click',function (event){
             phone: userphone.value,
         },
     };
+    if(username.value=="" || useremail.value=="" || userphone.value==""){
+        alert("請填寫聯絡資訊");
+        return;
+    }
     event.preventDefault();
     const tappayStatus = TPDirect.card.getTappayFieldsStatus();
     if (tappayStatus.canGetPrime === false) {
@@ -144,7 +148,11 @@ async function payment(order, prime) {
             }),
         });
         let result=await response.json();
-        window.location.href = `/thankyou?number=${result.data.number}`;
+        if (result.error){
+            alert(result.message);
+        }else{
+            window.location.href = `/thankyou?number=${result.data.number}`;
+        }
     }catch(err){
         console.error("前端解析錯誤:", err);
     }

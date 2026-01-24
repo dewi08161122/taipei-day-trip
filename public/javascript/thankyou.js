@@ -45,7 +45,7 @@ booking.addEventListener('click', ()=>{
 account.addEventListener('click', ()=>{
     if (account.textContent.includes('登出系統')) {
         localStorage.setItem("token", "");
-        window.location.reload();
+        window.location.href = "/";
         return
     }
 })
