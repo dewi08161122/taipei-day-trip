@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 import requests
 
 load_dotenv()
-partner_key = os.getenv("partner_key")
-merchant_id = os.getenv("merchant_id")
+partner_key = os.getenv("PARTNER_KEY")
+merchant_id = os.getenv("MERCHANT_ID")
 
 def pay_by_tappay(prime, price, orderPhone, orderName, orderEmail):
     url="https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
