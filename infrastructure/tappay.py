@@ -6,7 +6,7 @@ load_dotenv()
 partner_key = os.getenv("PARTNER_KEY")
 merchant_id = os.getenv("MERCHANT_ID")
 
-def pay_by_tappay(prime, price, orderPhone, orderName, orderEmail):
+def pay_by_tappay(prime, price:int, orderPhone, orderName, orderEmail):
     url="https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
     headers={
         "Content-Type": "application/json",
@@ -17,7 +17,7 @@ def pay_by_tappay(prime, price, orderPhone, orderName, orderEmail):
         "partner_key": partner_key,
         "merchant_id": merchant_id,
         "details":"TapPay Test",
-        "amount": price,
+        "amount": int(price),
         "cardholder": {
             "phone_number": orderPhone,
             "name": orderName,
