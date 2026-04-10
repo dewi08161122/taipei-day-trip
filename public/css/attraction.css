@@ -77,8 +77,8 @@ body{
     position: absolute;
     width: 100%;
     height: 100%;
-    inset: 0;  /*把四邊貼齊父層*/
-    object-fit: cover;  /*圖片等比例填滿，超出的部分裁掉*/
+    inset: 0;  
+    object-fit: cover;  
     opacity: 0;
     transition: opacity 0.4s ease;
 }
@@ -89,7 +89,7 @@ body{
     width: 36px;
     height: 36px;
     top: 50%;
-    transform: translateY(-50%); /*把自己往上拉50%*/
+    transform: translateY(-50%); 
     left: 10px;
     opacity: 0.75;
     position: absolute;
@@ -225,10 +225,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-weight: 400;
     color: #000000;
     background-color: #FFFFFF;
-    pointer-events: none; /* 點擊會穿透 */
+    pointer-events: none; 
 }
-input[type="date"]:focus + .placeholder, /* focus是正在使用,valid是有值*/
-input[type="date"]:valid + .placeholder {/* 是選type="date"的input後面的.placeholder的這個元素*/
+input[type="date"]:focus + .placeholder, 
+input[type="date"]:valid + .placeholder {
     display: none;
 }
 .input__word{
@@ -238,7 +238,7 @@ input[type="date"]:valid + .placeholder {/* 是選type="date"的input後面的.p
     font-weight: 400;
     color: #000000;
     border: none;
-    outline: none; /* 移除點擊時的外框 */
+    outline: none; 
     box-sizing: border-box;
 }
 .date__img{

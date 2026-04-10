@@ -1,5 +1,5 @@
 a{
-    text-decoration: none; /* 超連結的底線去除 */
+    text-decoration: none; 
 }
 body{
     margin:0px;
@@ -56,7 +56,7 @@ body{
     height: 320px;
     background: linear-gradient(135deg, #AADDEE 0%, #66AABB 100%); 
     background-image: url(/img/welcome.png);
-    background-repeat: no-repeat; /* 只顯示一張，不重複 */
+    background-repeat: no-repeat; 
     background-size: cover;
 }
 .herocontent{
@@ -150,7 +150,7 @@ body{
     color: #000000;
     line-height: 13.3px;
     border: none;
-    outline: none; /* 移除點擊時的外框 */
+    outline: none; 
     padding: 15px;
     box-sizing: border-box;
 }
@@ -267,10 +267,10 @@ body{
     width: 1086px;
     height: 24px;
     overflow: hidden;
-    white-space: nowrap; /* 防止換行 */
+    white-space: nowrap; 
 }
 .listItem{
-    display: inline-flex; /* 保持文字正常長度 */
+    display: inline-flex; 
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
@@ -297,7 +297,7 @@ body{
     justify-content: flex-start;
     gap: 30px;
     grid-template-columns: repeat(auto-fill, 270px);
-    grid-auto-rows: 242px; /*圖片高度*/
+    grid-auto-rows: 242px; 
 }
 .attraction{
     width: 270px;
@@ -311,14 +311,14 @@ body{
 .attraction__container{
     width: 270px;
     height: 197px;
-    overflow: hidden;  /*把超出容器範圍的內容裁掉*/
+    overflow: hidden;
     position: relative;
 }
 .attraction__image{
     width: 100%;
     height: 100%;
-    object-fit: cover;  /*圖片等比例填滿，超出的部分裁掉*/
-    display: block;  /*圖片貼齊容器底部*/
+    object-fit: cover; 
+    display: block; 
     position: absolute;
 }.attraction__word{
     display: flex;

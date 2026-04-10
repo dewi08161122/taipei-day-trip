@@ -95,10 +95,10 @@ async function loadAttractions(page, category, keyword) {
         attractions__group.appendChild(attraction);
     });
     nextpage = result.nextPage;
-    loading = false; // 跑到底才重新打開防止函式重複跑
+    loading = false;
     if (
         nextpage !== null &&
-        footer.getBoundingClientRect().top < window.innerHeight  // 會偵測footer有沒有出現在畫面中,有就直接跑下一頁直到不再畫面中
+        footer.getBoundingClientRect().top < window.innerHeight  
     ) {
         loadAttractions(nextpage, nowcategory, nowkeyword);
     }
@@ -106,37 +106,37 @@ async function loadAttractions(page, category, keyword) {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            loadAttractions(nextpage, nowcategory, nowkeyword); // 抓目前執行條件的nextpage
+            loadAttractions(nextpage, nowcategory, nowkeyword);
         }
     });
 }, {
-    root: null, // 整個可視區域
-    rootMargin: "0px",// 距離監控點前多少px遇到開始執行
-    threshold: 0, // 只要露出一點點就算進入 
+    root: null, 
+    rootMargin: "0px",
+    threshold: 0, 
 });
 observer.observe(footer);
 
 selector__word.addEventListener('click', () => {
     category__menu.classList.toggle("open");  
-}); // toggle()有裡面的內容就移除，沒有就加入內容
+}); 
 category__menu.addEventListener('click', (event) => {
     if (event.target.classList.contains('category__word')) {
         selector__word.textContent = event.target.textContent + " ▼";
         category__menu.classList.remove('open');
     }
-});// event.target點擊事件內容不是.category__word就不會觸發
+});
 document.addEventListener('click', (event) => {
     if (!category__menu.contains(event.target) && !selector__word.contains(event.target)){ 
         category__menu.classList.remove('open');
     }
-}); // 先設計一個關閉事件，用if來排除被點擊不關閉的位置，event.target代表點擊關閉這件事
+}); 
 
 list__button_left.addEventListener('click', () => {
     listItem__container.scrollBy({ left: -100, behavior: 'smooth' });  
 });
 list__button_right.addEventListener('click', () => {
     listItem__container.scrollBy({ left: 100, behavior: 'smooth' });
-}); // scrollBy是目前位置的基礎上再捲動一段距離，上下用top(正負值)左右用left(正負值)，smooth是平滑滑動
+}); 
 
 listItem__container.addEventListener('click', (event) => {
     if (event.target.classList.contains('listItem')) {
@@ -155,7 +155,7 @@ searchbtn.addEventListener('click', () => {
         keyword=null
     }
     attractions__group.innerHTML = "";
-    nextpage = 0;  // 更新之前的搜尋結果
+    nextpage = 0;  
     nowcategory = category; 
     nowkeyword = keyword;
     loadAttractions(page, nowcategory, nowkeyword);

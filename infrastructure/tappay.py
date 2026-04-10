@@ -26,8 +26,8 @@ def pay_by_tappay(prime, price:int, orderPhone, orderName, orderEmail):
             "remember": False
         }
     try:
-        response =requests.post(url, json=body, headers=headers, timeout=10) # 加上時間限制確保程式不會無限期等待
-        response.raise_for_status() # 即使出現報錯依然會回傳一個 response 物件防止解析json炸掉
+        response =requests.post(url, json=body, headers=headers, timeout=10) 
+        response.raise_for_status() 
         return response.json()
 
     except Exception as e:

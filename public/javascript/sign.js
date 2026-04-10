@@ -36,7 +36,7 @@ login__button.addEventListener('click', async ()=>{
         login__word.textContent=result.message + "，點此註冊";
         return;
     }
-    localStorage.setItem("token", result.token);  // 儲存token到瀏覽器的LocalStorage
+    localStorage.setItem("token", result.token);  
     window.location.reload();
 })
 

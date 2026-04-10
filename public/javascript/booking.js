@@ -198,7 +198,6 @@ TPDirect.card.setup({
             }
         }
     },
-    // 此設定會顯示卡號輸入正確後，會顯示前六後四碼信用卡卡號
     isMaskCreditCardNumber: true,
     maskCreditCardNumberRange: {
         beginIndex: 6,

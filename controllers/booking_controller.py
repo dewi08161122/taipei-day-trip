@@ -8,7 +8,7 @@ router = APIRouter()
 @router.post("/api/booking")
 def booking(body: dict=Body(...), authorization: str=Header(None)):
     attractionId=int(body["attractionId"])
-    bookingDate = date.fromisoformat(body["bookingDate"]) # 把字串轉換成date型式
+    bookingDate = date.fromisoformat(body["bookingDate"]) 
     bookingTime=body["bookingTime"]
     price=int(body["price"])
     if authorization is None:

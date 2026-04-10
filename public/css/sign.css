@@ -139,7 +139,7 @@
 }
 .opacity{
     display: none;
-    position: fixed; /* 固定在視窗上，不會跟著頁面滾動 */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100%;

@@ -20,14 +20,14 @@ def get_attraction_by_keyword(page: int = 0, category: str = None, keyword: str 
                     count_sql += " AND (mrt = %s OR name LIKE %s)"
                     values.extend([keyword, f"%{keyword}%"])
                 
-                cursor.execute(count_sql, values)  # 資料數量條件組合取出
+                cursor.execute(count_sql, values)  
                 total = cursor.fetchone()["total"] 
                 sql += " LIMIT %s, %s"
 
-                cursor.execute(sql, values + [offset, page_size]) # 資料內容條件組合取出
+                cursor.execute(sql, values + [offset, page_size]) 
                 result = cursor.fetchall()
                 for i in result: 
-                    i["images"] = json.loads(i["images"]) # 修改圖片格式
+                    i["images"] = json.loads(i["images"]) 
                 next_page = page + 1 if total > (page + 1) * page_size else None
                 return {"nextPage": next_page, "attractions": result}
     except Exception as e:
@@ -50,7 +50,7 @@ def get_categories():
     try:
         with get_connection() as con:
             with con.cursor() as cursor:
-                cursor.execute("SELECT DISTINCT category FROM travel") # DISTINCT 可以直接去除重複資料
+                cursor.execute("SELECT DISTINCT category FROM travel") 
                 result = cursor.fetchall()
                 categories=[i[0] for i in result]	
                 return categories
@@ -61,7 +61,7 @@ def get_mrts():
     try:
         with get_connection() as con:
             with con.cursor() as cursor:
-                cursor.execute("SELECT mrt, COUNT(*) AS total FROM travel WHERE mrt IS NOT NULL GROUP BY mrt ORDER BY total DESC") # DISTINCT 可以直接去除重複資料
+                cursor.execute("SELECT mrt, COUNT(*) AS total FROM travel WHERE mrt IS NOT NULL GROUP BY mrt ORDER BY total DESC") 
                 result = cursor.fetchall()
                 mrts=[i[0] for i in result ]	
                 return mrts

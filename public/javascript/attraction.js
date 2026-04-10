@@ -72,7 +72,7 @@ function showImage(index) {
 }
 
 date__img.addEventListener("click", () => {
-  input__word.showPicker(); // 直接打開日期選擇器
+  input__word.showPicker(); 
 });
 
 title__word.addEventListener("click", ()=>{
